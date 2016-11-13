@@ -1,0 +1,11 @@
+{
+  "region": "oss-cn-hangzhou",
+  "accessKeyId": "",
+  "accessKeySecret": "",
+  "bucket": "",
+  "host" : "",
+  "expire_time" : 600,
+  "upload_dir" :"upload/",
+  "callback_url" : "http://nofity.liuwill.com/upload/",
+  "contentLengthLimit": ["content-length-range", 1, 4000000]
+}
