@@ -3,6 +3,7 @@ const gutil = require("gulp-util");
 const connect = require("gulp-connect");
 const webpack = require("webpack");
 const clean = require('gulp-clean');
+const runSequence = require('run-sequence')
 const webpackConfig = require("./webpack.config.js");
 
 gulp.task('server', function() {
@@ -40,3 +41,15 @@ gulp.task("webpack:build", function(callback) {
         callback();
     });
 });
+
+gulp.task('front:watch', function () {
+    gulp.watch('client/**/*', ['clean','webpack:build']);
+});
+
+gulp.task('default', () => {
+    return runSequence(
+        'clean',
+        'webpack:build',
+        ['front:watch','server']
+    )
+})
