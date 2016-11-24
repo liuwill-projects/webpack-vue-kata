@@ -4,14 +4,14 @@ var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-module.exports = {
+var myConfig = {
     //entry: "./client/main.js",
     entry: {
         bundle: ["./client/main.js"],
         vendor: []
     },
     resolve: {
-        extensions: ['', '.js', '.scss','.css'],
+        extensions: ['', '.js', '.vue', '.scss','.css'],
     },
     output: {
         // filename: "assets/bundle.js",
@@ -22,7 +22,7 @@ module.exports = {
         //filename: '[name].[contenthash:8].js',
         //filename: '[name].js',
         chunkFilename: '[id].js',
-        publicPath: '/assets/',
+        publicPath: './assets/',
     },
     module: {
         loaders: [
@@ -51,18 +51,24 @@ module.exports = {
             }
         ]
     },
-    babel: {
-        presets: ['es2015'],
-        plugins: ['transform-runtime',["component", [
-            {
-                "libraryName": "element-ui",
-                "styleLibraryName": "theme-default"
-            }
-        ]]]
-    },
+    // babel: {
+    //     presets: ['es2015'],
+    //     plugins: ['transform-runtime',["component", [
+    //         {
+    //             "libraryName": "element-ui",
+    //             "styleLibraryName": "theme-default"
+    //         }
+    //     ]]]
+    // },
     plugins:[
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     names: ['bundle','vendor']
+        // }),
         new webpack.optimize.CommonsChunkPlugin({
-            names: ['bundle','vendor']
+            name: 'vendor',
+            chunks: ['vendor','bundle'],
+            // Modules must be shared between all entries
+            minChunks: 2 // 提取所有chunks共同依赖的模块
         }),
         new HtmlWebpackPlugin({
             title: 'My App',
@@ -76,22 +82,20 @@ module.exports = {
 };
 
 if (process.env.NODE_ENV === 'production') {
-    module.exports.plugins = [
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: '"production"'
-            }
-        }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
-        }),
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.optimize.CommonsChunkPlugin({
-            names: ['bundle','vendor']
-        })
-    ]
+    myConfig.plugins.unshift(new webpack.DefinePlugin({
+        'process.env': {
+            NODE_ENV: '"production"'
+        }
+    }));
+    myConfig.plugins.unshift(new webpack.optimize.UglifyJsPlugin({
+        compress: {
+            warnings: false
+        }
+    }));
+    myConfig.plugins.unshift(new webpack.optimize.OccurenceOrderPlugin());
+
 } else {
     module.exports.devtool = '#source-map'
 }
+
+module.exports = myConfig;

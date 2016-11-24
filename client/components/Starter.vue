@@ -71,7 +71,7 @@ export default {
 
     methods: {
         fetchData(){
-
+            console.log("fetch data");
         },
         jumpTo(pathName){
             this.$router.push({name: pathName});

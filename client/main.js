@@ -25,6 +25,7 @@ new Vue({
         return h(Index,{
             props: {
                 me: 'liuwill',
+                email: 'liuwill@live.com',
                 appData: {},
             }
         })

@@ -15,6 +15,7 @@
     "config": "^1.24.0",
     "element-ui": "^1.0.0",
     "es6-promise": "^4.0.5",
+    "mint-ui": "^2.0.5",
     "vue": "^2.0.5",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.0.1",
@@ -45,8 +46,10 @@
     "webpack-dev-server": "^1.16.2"
   },
   "scripts": {
-    "start": "gulp static",
+    "start": "node ./server",
+    "static": "gulp static",
     "dev": "gulp",
+    "build-production": "webpack",
     "build": "gulp webpack:build",
     "clean": "gulp clean"
   }
